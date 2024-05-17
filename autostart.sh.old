@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Aliases
+alias bt="bluetoothctl"
+
+# Start statusbar
+dwmblocks
+
+# Keyboard maps
+setxkbmap -option "caps:swapescape"
+
+# Setup displays
+xrandr --output DisplayPort-0 --mode 2560x1440 --rate 143.97 --rotate normal --primary --output DisplayPort-1 --mode 1920x1080 --rate 60.00 --left-of DisplayPort-0 --rotate left --output HDMI-A-0 --mode 1920x1080 --rate 60.00 --right-of DisplayPort-0 --rotate normal
+
+# Set wallpapers
+feh --bg-fill -z ~/Pictures/wallpapers/nordic-wallpapers/wallpapers
+
+# Start pipewire audio services
+/bin/pipewire &
+/bin/pipewire-pulse &
+/bin/wireplumber & 
+
