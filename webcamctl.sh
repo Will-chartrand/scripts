@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # This script allows me to adjust the various parameters of my webcam fairly quickly from the command line.
 
 # Path to my desired webcam
