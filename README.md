@@ -8,5 +8,3 @@ For example:
 so that dmenu (a suckless.org utility) can see and run them
 
 
-test
-
