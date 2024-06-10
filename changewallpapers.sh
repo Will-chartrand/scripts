@@ -1,6 +1,6 @@
 #!/bin/bash
 while :
 do
-	set-wallpapers
+	wallpapers
 	sleep 30m
 done

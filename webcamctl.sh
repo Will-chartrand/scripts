@@ -10,19 +10,27 @@ if [ $# -eq 0 ]; then
   exit 1;
 fi
 
+if [ "$1" = "-p" ]; then
+  if [ $# -eq 1 ]; then
+    ffplay -framerate 30 -input_format mjpeg -video_size 1920x1080 -aspect 16:9 -window_title Webcam -fast -vf "hflip" "$videoinput"
+  fi
+  exit 1;
+fi
+
+if [ "$1" = "-r" ]; then
+  if [ $# -eq 1 ]; then
+    sudo sh -c "echo 0 > /sys/bus/usb/devices/1-8/authorized"
+    sudo sh -c "echo 1 > /sys/bus/usb/devices/1-8/authorized"
+  fi
+  exit 1;
+fi
+
 if [ "$1" = "-b" ]; then
   if [ $# -eq 1 ]; then
     echo "30-255, default=133";
   else
     brightness="$2";
     v4l2-ctl -d "$videoinput" --set-ctrl brightness="$brightness";
-  fi
-  exit 1;
-fi
-
-if [ "$1" = "-p" ]; then
-  if [ $# -eq 1 ]; then
-    ffplay -framerate 30 -input_format mjpeg -video_size 1920x1080 -window_title Webcam -fast -vf "hflip" "$videoinput"
   fi
   exit 1;
 fi
