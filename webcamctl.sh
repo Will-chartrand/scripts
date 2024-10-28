@@ -35,6 +35,17 @@ if [ "$1" = "-b" ]; then
   exit 1;
 fi
 
+if [ "$1" = "-b2" ]; then
+  videoinput="/dev/video0"
+  if [ $# -eq 1 ]; then
+    echo "30-255, default=133";
+  else
+    brightness="$2";
+    v4l2-ctl -d "$videoinput" --set-ctrl brightness="$brightness";
+  fi
+  exit 1;
+fi
+
 if [ "$1" = "-c" ]; then
   if [ $# -eq 1 ]; then
     echo "0-10, default=5";

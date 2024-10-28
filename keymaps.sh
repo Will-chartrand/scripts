@@ -4,7 +4,8 @@
 #setxkbmap -option "caps:swapescape"
 #setxkbmap -option "caps:escape"
 
-#xkbcomp ~/.config/xkb/mykeymap.xkb $DISPLAY
+xkbcomp ~/.config/xkb/mykeymap.xkb $DISPLAY
+xbindkeys
 
 
 #xmodmap -e "remove Lock = Caps_Lock"

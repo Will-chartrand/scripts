@@ -2,11 +2,25 @@
 # NAME
 #     brightness.sh - Increase/decrease/ brightness using xrandr gamma attribute
 # SYNOPSIS
-#     brightness.sh <Up|Down|GammaUp|GammaDown|ResetBrightness|ResetGamma>
+#     brightness.sh <MonUp|MonDown|Up|Down|GammaUp|GammaDown|ResetBrightness|ResetGamma>
 #
 # Script based off of solution found at https://askubuntu.com/questions/1150339/increment-brightness-by-value-using-xrandr
 #
 # Code uses bc command for calcultions involving decimal values
+
+if [[ "$1" == "MonUp" ]]; then
+  ddcutil setvcp --bus=6 10 + 10 # G27Q
+  ddcutil setvcp --bus=5 10 + 10 # Benq right
+  ddcutil setvcp --bus=3 10 + 25 # Benq left vert
+  exit 1
+fi
+
+if [[ "$1" == "MonDown" ]]; then
+  ddcutil setvcp --bus=6 10 - 10 # G27Q
+  ddcutil setvcp --bus=5 10 - 10 # Benq right
+  ddcutil setvcp --bus=3 10 - 25 # Benq left vert
+  exit 1
+fi
 
 MON1="DisplayPort-0"    # Discover monitor name with: xrandr | grep " connected"
 MON2="DisplayPort-1"    # Discover monitor name with: xrandr | grep " connected"

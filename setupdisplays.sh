@@ -5,9 +5,9 @@
 #  and other such inconsistencies among my monitors like resolution and whatnot
 
 # Names of my monitors
-MON1="DisplayPort-0"    # Discover monitor name with: xrandr | grep " connected"
-MON2="DisplayPort-1"    # Discover monitor name with: xrandr | grep " connected"
-MON3="HDMI-A-0"    # Discover monitor name with: xrandr | grep " connected"
+MON1="DisplayPort-0";    # Discover monitor name with: xrandr | grep " connected"
+MON2="DisplayPort-1";    # Discover monitor name with: xrandr | grep " connected"
+MON3="HDMI-A-0";    # Discover monitor name with: xrandr | grep " connected"
 
 # These are for the intel driver (I don't know why it has a different naming convention)
 #MON1="DP-1"   # Discover monitor name with: xrandr | grep " connected"
@@ -16,9 +16,11 @@ MON3="HDMI-A-0"    # Discover monitor name with: xrandr | grep " connected"
 
 # Setup displays
 
+# To be invoked by startup script
 if [ $# -eq 0 ]; then
-  xrandr --output $MON1 --mode 2560x1440 --rate 143.97 --rotate normal --primary --output $MON2 --mode 1920x1080 --rate 60.00 --left-of $MON1 --rotate left --output $MON3 --mode 1920x1080 --rate 60.00 --right-of $MON1 --rotate normal
-  changewallpapers &
+  xrandr --output $MON1 --mode 2560x1440 --rate 143.97 --rotate normal --primary --output $MON2 --mode 1920x1080 --rate 60.00 --left-of $MON1 --rotate left --output $MON3 --mode 1920x1080 --rate 60.00 --right-of $MON1 --rotate normal;
+  #changewallpapers &
+  wallpapers -b &
   exit 1;
 fi
 
@@ -64,7 +66,7 @@ if [ "$1" = "-s" ]; then
       xrandr --output $MON1 --mode 2560x1440 --rate 143.97 --rotate normal --primary --output $MON2 --off --output $MON3 --off
     fi
     if [ $2 -eq "011" ]; then
-      xrandr --output $MON1 --off --output $MON2 --mode 1920x1080 --rate 60.00 --left-of $MON1 --rotate left --output $MON3 --mode 1920x1080 --rate 60.00 --right-of $MON1 --rotate normal
+      xrandr --output $MON1 --mode 2560x1440 --rate 143.97 --rotate normal --primary --output $MON2 --off --output $MON3 --mode 1920x1080 --rate 60.00 --right-of $MON1 --rotate normal;
     fi
     if [ $2 -eq "100" ]; then
       xrandr --output --off --output $MON2 --mode 1920x1080 --rate 60.00 --left-of $MON1 --rotate left --output $MON3 --off
@@ -81,7 +83,7 @@ if [ "$1" = "-s" ]; then
   fi
 
   # Reapply wallpapers so they don't look all screwed up
-  set-wallpapers
+  wallpapers -b
 
   exit 1;
 fi

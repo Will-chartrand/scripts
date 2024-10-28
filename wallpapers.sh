@@ -10,12 +10,14 @@
 
 
 if [ $# -eq 0 ]; then
-  feh --bg-fill -z ~/Pictures/wallpapers/forestsmountains
+  #feh --bg-fill -z ~/Pictures/wallpapers/minion
+  feh --bg-scale -z ~/Pictures/wallpapers/minion
   exit 1
 fi
 
 if [ "$1" = "-b" ]; then
   pkill -f changewallpapers
   feh --bg-fill -z ~/Pictures/wallpapers/black.png
+  openrgb --mode static --color 000000 & # Might as well blackout the pc
   exit 1
 fi
