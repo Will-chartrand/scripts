@@ -8,10 +8,17 @@
 #feh --bg-fill -z ~/Pictures/wallpapers/justanotherstrange/dark
 #feh --bg-fill -z ~/Pictures/wallpapers/frenzy/Pixelart
 
-
 if [ $# -eq 0 ]; then
-  #feh --bg-fill -z ~/Pictures/wallpapers/minion
-  feh --bg-scale -z ~/Pictures/wallpapers/minion
+  if [ $(date +'%k') -ge 17 ]; then
+    feh --bg-fill -z ~/Pictures/wallpapers/timedep/night
+  elif [ $(date +'%k') -ge 12 ]; then
+    feh --bg-fill -z ~/Pictures/wallpapers/timedep/day
+  elif [ $(date +'%k') -ge 5 ]; then
+    feh --bg-fill -z ~/Pictures/wallpapers/timedep/morning
+  else
+    feh --bg-fill -z ~/Pictures/wallpapers/timedep/latenight
+  fi
+
   exit 1
 fi
 
