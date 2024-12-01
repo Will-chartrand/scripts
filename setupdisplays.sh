@@ -19,8 +19,7 @@ MON3="HDMI-A-0"      # Discover monitor name with: xrandr | grep " connected"
 # To be invoked by startup script
 if [ $# -eq 0 ]; then
   xrandr --output $MON1 --mode 2560x1440 --rate 143.97 --rotate normal --primary --output $MON2 --mode 1920x1080 --rate 60.00 --left-of $MON1 --rotate left --output $MON3 --mode 1920x1080 --rate 60.00 --right-of $MON1 --rotate normal
-  changewallpapers &
-  #wallpapers &
+  wallpapers &
   exit 1
 fi
 
@@ -83,10 +82,10 @@ if [ "$1" = "-s" ]; then
   fi
 
   # Reapply wallpapers so they don't look all screwed up
-  wallpapers -b
+  wallpapers
 
   exit 1
 fi
 
-wallpapers -b
+wallpapers
 exit 0

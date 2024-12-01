@@ -8,6 +8,9 @@
 #feh --bg-fill -z ~/Pictures/wallpapers/justanotherstrange/dark
 #feh --bg-fill -z ~/Pictures/wallpapers/frenzy/Pixelart
 
+feh --bg-fill -z ~/Pictures/wallpapers/porsche
+exit 1
+
 if [ $# -eq 0 ]; then
   if [ $(date +'%k') -ge 17 ]; then
     feh --bg-fill -z ~/Pictures/wallpapers/timedep/night

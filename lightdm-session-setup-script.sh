@@ -5,4 +5,11 @@ setupvolume &
 # Keyboard maps
 keymaps &
 
-picom --backend glx -f &
+picom &
+
+pkill changewal
+changewallpapers &
+
+redshit &
+
+exec dbus-launch openbox-session

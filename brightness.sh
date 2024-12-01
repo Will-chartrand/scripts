@@ -11,24 +11,24 @@
 if [[ "$1" == "MonUp" ]]; then
   ddcutil setvcp --bus=6 10 + 10 # G27Q
   ddcutil setvcp --bus=5 10 + 10 # Benq right
-  ddcutil setvcp --bus=3 10 + 25 # Benq left vert
+  #ddcutil setvcp --bus=3 10 + 25 # Benq left vert
   exit 1
 fi
 
 if [[ "$1" == "MonDown" ]]; then
   ddcutil setvcp --bus=6 10 - 10 # G27Q
   ddcutil setvcp --bus=5 10 - 10 # Benq right
-  ddcutil setvcp --bus=3 10 - 25 # Benq left vert
+  #ddcutil setvcp --bus=3 10 - 25 # Benq left vert
   exit 1
 fi
 
-MON1="DisplayPort-0"    # Discover monitor name with: xrandr | grep " connected"
-MON2="DisplayPort-1"    # Discover monitor name with: xrandr | grep " connected"
-MON3="HDMI-A-0"    # Discover monitor name with: xrandr | grep " connected"
+MON1="DisplayPort-0" # Discover monitor name with: xrandr | grep " connected"
+MON2="DisplayPort-1" # Discover monitor name with: xrandr | grep " connected"
+MON3="HDMI-A-0"      # Discover monitor name with: xrandr | grep " connected"
 #MON1="DP-1"   # Discover monitor name with: xrandr | grep " connected"
 #MON2="DP-2"   # Discover monitor name with: xrandr | grep " connected"
 #MON3="HDMI-1" # Discover monitor name with: xrandr | grep " connected"
-STEP=5        # Step Up/Down brightnes by: 5
+STEP=5 # Step Up/Down brightnes by: 5
 
 # Change gamma (rgb) values incrementally by these
 deltared=0.0
@@ -74,27 +74,27 @@ MathBright=$((MathBright + Right))
 
 # Change gamma value
 if [[ "$1" == "GammaUp" ]]; then
-	red=$(echo "$red + $deltared" | bc)
-	green=$(echo "$green + $deltagreen" | bc)
-	blue=$(echo "$blue + $deltablue" | bc)
-	CurrGamma="$red:$green:$blue" # Reconstruct gamma value
+  red=$(echo "$red + $deltared" | bc)
+  green=$(echo "$green + $deltagreen" | bc)
+  blue=$(echo "$blue + $deltablue" | bc)
+  CurrGamma="$red:$green:$blue" # Reconstruct gamma value
 fi
 if [[ "$1" == "GammaDown" ]]; then
-	red=$(echo "$red - $deltared" | bc)
-	green=$(echo "$green - $deltagreen" | bc)
-	blue=$(echo "$blue - $deltablue" | bc)
-	CurrGamma="$red:$green:$blue" # Reconstruct gamma value
+  red=$(echo "$red - $deltared" | bc)
+  green=$(echo "$green - $deltagreen" | bc)
+  blue=$(echo "$blue - $deltablue" | bc)
+  CurrGamma="$red:$green:$blue" # Reconstruct gamma value
 fi
 
 [[ "${MathBright:0:1}" == "-" ]] && MathBright=0 # Negative not allowed
 [[ $MathBright -gt 999 ]] && MathBright=999      # Can't go over 9.99
 
 if [[ "${#MathBright}" -eq 3 ]]; then
-	MathBright="$MathBright"000 # Pad with lots of zeros
-	CurrBright="${MathBright:0:1}.${MathBright:1:2}"
+  MathBright="$MathBright"000 # Pad with lots of zeros
+  CurrBright="${MathBright:0:1}.${MathBright:1:2}"
 else
-	MathBright="$MathBright"000 # Pad with lots of zeros
-	CurrBright=".${MathBright:0:2}"
+  MathBright="$MathBright"000 # Pad with lots of zeros
+  CurrBright=".${MathBright:0:2}"
 fi
 
 # Set new brightness and gamma for all three defined monitors
