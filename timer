@@ -1,0 +1,47 @@
+#!/bin/bash
+
+while getopts ":h" opt; do
+  case $opt in
+  h)
+    echo "Usage: $0 [-h] [arguments]"
+    echo "  -h     Display this help message"
+    echo "  -c 10  Sets counter to 10s"
+    exit 0
+    ;;
+  c)
+    counter=$OPTARG
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    exit 1
+    ;;
+  esac
+done
+
+if [ $# -eq 0 ]; then
+  counter=60
+fi
+
+trap ctrl_c INT
+
+ctrl_c() {
+  # Add your cleanup code here
+  tput reset
+  echo "Ctrl+C pressed. Timer Stopped"
+  exit 1
+}
+
+while [ $counter -gt 0 ]; do
+  clear
+  tput civis
+  echo ""
+  echo ""
+  tput cr
+  tput el
+  figlet -c $counter
+  sleep 1s
+  ((counter = $counter - 1))
+done
+
+tput reset
+fastfetch
