@@ -1,0 +1,14 @@
+#!/bin/bash
+
+oldHours=$(date +"%I" | bc)
+
+while :; do
+  newHours=$(date +"%I" | bc)
+  if [ "$oldHours" != "$newHours" ]; then
+    oldHours=$newHours
+    newHours=$(date +"%I" | bc)
+    spd-say "$newHours o clock"
+  fi
+  sleep 1m
+
+done
