@@ -12,9 +12,9 @@ currVolume=$(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $2 }' | 
 
 if [ $1 = "-g" ]; then
   muted=$(pactl get-sink-mute @DEFAULT_SINK@ | grep "yes" | wc -l)
+
   if [ "$muted" == 1 ]; then
     echo "---"
-    exit 1
   fi
   echo $(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $2 }')
   exit 1
@@ -27,7 +27,6 @@ if [ "$2" = "up" ]; then
   fi
 
   pactl set-sink-volume @DEFAULT_SINK@ +5%
-
 fi
 
 if [ "$2" = "down" ]; then
@@ -36,7 +35,15 @@ if [ "$2" = "down" ]; then
     exit 1
   fi
   pactl set-sink-volume @DEFAULT_SINK@ -5%
+fi
 
+if [ "$1" = "mute" ]; then
+  if [ $(amixer sget Master | grep 'Right:' | grep off | wc -l) == "1" ]; then
+    notify-send -t 1800 "MUTE OFF" -h string:x-canonical-private-synchronous:anything
+  else
+    notify-send -t 1800 "MUTE ON" -h string:x-canonical-private-synchronous:anything
+  fi
+  exit 1
 fi
 
 currVolume=$(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $2 }' | tr -d %)
