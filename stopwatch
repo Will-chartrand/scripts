@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Initialize stopwatch time
+hrs=0
+min=0
+sec=0
+
+trap ctrl_c INT
+
+ctrl_c() {
+  tput cnorm  # Restore cursor
+  tput reset
+  echo "Stopwatch stopped at $hrs h $min m $sec s"
+  exit 0
+}
+
+clear
+tput civis  # Hide cursor
+
+while true; do
+  # Get terminal size dynamically
+  height=$(tput lines)
+  width=$(tput cols)
+  text_height=5  # Approximate height of figlet output
+  padding_y=$(( (height - text_height) / 2 ))  # Vertical center
+
+  # Generate figlet output and measure its width
+  text=$(figlet "$hrs h $min m $sec s")
+  text_width=$(echo "$text" | wc -L)  # Find longest line
+  padding_x=$(( (width - text_width) / 2 ))  # Horizontal center
+
+  # Move cursor to vertical center
+  tput cup $padding_y 0
+  tput ed  # Clear below cursor to avoid ghosting
+
+  # Print each line of the figlet text at the horizontal center
+  while IFS= read -r line; do
+    tput cup $((padding_y++)) $padding_x
+    echo "$line"
+  done <<< "$text"
+
+  sleep 1
+
+  # Increment time
+  ((sec++))
+  if (( sec >= 60 )); then
+    sec=0
+    ((min++))
+  fi
+  if (( min >= 60 )); then
+    min=0
+    ((hrs++))
+  fi
+done

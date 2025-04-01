@@ -1,15 +1,27 @@
 #!/bin/bash
 
-while getopts ":h" opt; do
+hrs=${hrs:-0}
+min=${min:-0}
+sec=${sec:-0}
+
+while getopts ":hj:m:s:" opt; do
   case $opt in
   h)
     echo "Usage: $0 [-h] [arguments]"
-    echo "  -h     Display this help message"
-    echo "  -c 10  Sets counter to 10s"
+    echo "  --help  Display this help message"
+    echo "  -j 10   Adds 10 hours to counter"
+    echo "  -m 10   Adds 10 minutes to counter"
+    echo "  -s 10   Adds 10 seconds to counter"
     exit 0
     ;;
-  c)
-    counter=$OPTARG
+  j)
+    hrs=$OPTARG
+    ;;
+  m)
+    min=$OPTARG
+    ;;
+  s)
+    sec=$OPTARG
     ;;
   \?)
     echo "Invalid option: -$OPTARG" >&2
@@ -18,30 +30,59 @@ while getopts ":h" opt; do
   esac
 done
 
-if [ $# -eq 0 ]; then
-  counter=60
-fi
+[ $# -eq 0 ] && counter=60
 
 trap ctrl_c INT
 
 ctrl_c() {
-  # Add your cleanup code here
   tput reset
   echo "Ctrl+C pressed. Timer Stopped"
   exit 1
 }
 
-while [ $counter -gt 0 ]; do
-  clear
-  tput civis
-  echo ""
-  echo ""
-  tput cr
-  tput el
-  figlet -c $counter
-  sleep 1s
-  ((counter = $counter - 1))
+
+clear
+
+tput civis  # Hide cursor
+
+height=$(tput lines)
+width=$(tput cols)
+text_height=5  # Approximate height of figlet output (adjust if needed)
+padding_y=$(( (height - text_height) / 2 ))  # Vertical center
+
+tput cup $padding 0
+
+
+for ((i = hrs; i >= 0; i--)); do
+  for ((j = (i == hrs ? min : 59); j >= 0; j--)); do
+    for ((k = (j == min && i == hrs ? sec : 59); k >= 0; k--)); do
+      height=$(tput lines)
+      width=$(tput cols)
+      text_height=5  # Approximate height of figlet output (adjust if needed)
+      padding_y=$(( (height - text_height) / 2 ))  # Vertical center
+
+      # Generate figlet output and measure its width
+      text=$(figlet "$i h $j m $k s")
+      text_width=$(echo "$text" | wc -L)  # Find longest line
+
+      padding_x=$(( (width - text_width) / 2 ))  # Horizontal center
+
+      # Move cursor to vertical center
+      tput cup $padding_y 0
+      tput ed  # Clear below cursor to remove previous characters
+
+      # Print each line of the figlet text at the horizontal center
+      while IFS= read -r line; do
+        tput cup $((padding_y++)) $padding_x
+        echo "$line"
+      done <<< "$text"
+      sleep 1
+    done
+  done
 done
+
+tput cnorm  # Restore cursor
 
 tput reset
 fastfetch
+spd-say "Timer finished!"
