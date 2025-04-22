@@ -1,0 +1,13 @@
+#!/bin/bash
+
+log_file="$HOME/.config/nvim/vim_time_log"
+while true; do
+    if pgrep -x "nvim" > /dev/null; then
+        date "+%s" >> "$log_file"
+    fi
+    sleep 60  # Log every minute
+done
+
+# Total the time:
+# awk 'NR%2==0 {sum+=$1-prev} {prev=$1} END {print sum/3600 " hours"}' ~/.config/nvim/vim_time_log
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Kill heroic I hate you heroic DIE DIE DIE
+pkill -9 heroic

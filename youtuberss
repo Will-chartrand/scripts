@@ -1,0 +1,4 @@
+#!/bin/bash
+
+finalURL=$(curl -s https://www.youtube.com/@TechnologyConnections | sed -nE 's/.*channel_id=([^"]*).*/\1/p')
+echo "$finalURL"
